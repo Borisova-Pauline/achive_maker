@@ -2,12 +2,19 @@ package com.example.achive_maker;
 
 import static com.example.achive_maker.MainActivity.SHAR_PREFS_NAME;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +22,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class samples_activity extends AppCompatActivity {
     SharedPreferences sharPrefs;
     private boolean isFirstClicked = false;
     private boolean isSecondClicked = false;
+    ArrayList<PictureButton> pics = new ArrayList<>();
+    ArrayList<BackgroundButton> backs = new ArrayList<>();
 
     public void toMainMenu(View view){
         Intent intent = new Intent(this, MainActivity.class);
@@ -45,12 +56,25 @@ public class samples_activity extends AppCompatActivity {
         isSecondClicked=sharPrefs.getBoolean("secondInSample", false);
 
         View arrow1 = findViewById(R.id.arrow_pic);
-        LinearLayout tv1 = findViewById(R.id.pic_list);
+        GridView tv1 = findViewById(R.id.picture_grid);
         changeButton((ImageView) arrow1, isFirstClicked, tv1);
 
         View arrow2 = findViewById(R.id.arrow_fr);
-        LinearLayout tv2 = findViewById(R.id.fr_list);
+        ListView tv2 = findViewById(R.id.backg_list);
         changeButton((ImageView) arrow2, isSecondClicked, tv2);
+
+
+        AdapterPic myAdPic = new AdapterPic(this, pics);
+        pics.add(new PictureButton(R.drawable.def_pic_star));
+        pics.add(new PictureButton());
+        pics.add(new PictureButton());
+        pics.add(new PictureButton(R.drawable.picture_plus));
+        tv1.setAdapter(myAdPic);
+
+        AdapterBackgr myAdBack = new AdapterBackgr(this, backs);
+        backs.add(new BackgroundButton());
+        backs.add(new BackgroundButton(R.drawable.backg_plus));
+        tv2.setAdapter(myAdBack);
     }
     public void onClick1side(View view){
         if(isFirstClicked){
@@ -59,7 +83,7 @@ public class samples_activity extends AppCompatActivity {
             isFirstClicked=true;
         }
         ImageView arrow1 = findViewById(R.id.arrow_pic);
-        LinearLayout tv = findViewById(R.id.pic_list);
+        GridView tv = findViewById(R.id.picture_grid);
         changeButton(arrow1, isFirstClicked, tv);
     }
     public void onClick2side(View view){
@@ -69,7 +93,7 @@ public class samples_activity extends AppCompatActivity {
             isSecondClicked=true;
         }
         ImageView arrow2 = findViewById(R.id.arrow_fr);
-        LinearLayout tv = findViewById(R.id.fr_list);
+        ListView tv = findViewById(R.id.backg_list);
         changeButton(arrow2, isSecondClicked, tv);
     }
     public void changeButton(ImageView iv, boolean isClick, View tv){
@@ -89,4 +113,9 @@ public class samples_activity extends AppCompatActivity {
         editor.putBoolean("secondInSample", isSecondClicked);
         editor.apply();
     }
+
+
+
+
+
 }

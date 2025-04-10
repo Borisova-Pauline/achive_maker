@@ -104,22 +104,12 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/pic_list"
+            <GridView
+                android:id="@+id/picture_grid"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/temptextpic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:onClick="toLookDelMenu"
-                    android:text="\n\n[pictures_samples]\n\n"
-                    android:textSize="30sp" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/frames"
@@ -167,22 +157,12 @@
                     android:textSize="25sp" />
 
             </RelativeLayout>
-            <LinearLayout
-                android:id="@+id/fr_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/temptextfr"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:onClick="toLookDelMenu"
-                    android:text="\n\n[backgrounds_samples]\n\n"
-                    android:textSize="30sp" />
-            </LinearLayout>
+            <ListView
+                android:id="@+id/backg_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>

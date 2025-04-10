@@ -3,6 +3,7 @@ package com.example.achive_maker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,11 @@ public class LookOrDel extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Intent intent = getIntent();
+
+        ImageView iv = findViewById(R.id.samp_look_del);
+        iv.setImageResource(intent.getIntExtra("picture", R.drawable.unknow_pic));
+
     }
     public void toSampleMenu(View view){
         Intent intent = new Intent(this, samples_activity.class);
