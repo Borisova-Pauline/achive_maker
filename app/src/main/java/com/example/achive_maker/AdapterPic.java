@@ -63,7 +63,7 @@ public class AdapterPic extends BaseAdapter {
                 @Override
                 public void onClick(View view) {                 ///////////////////////////////////////////   OVER HERE!!
                     Toast.makeText(context, "adding a picture", Toast.LENGTH_LONG).show();
-
+                    //((Activity) context).startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
                 }
             });
         }else{
@@ -90,6 +90,9 @@ public class AdapterPic extends BaseAdapter {
         private ImageView image_pic;
     }
 
+
+
+    //public static final int GET_FROM_GALLERY = 3;
     /*public static final int GET_FROM_GALLERY = 3;
     public void loadImageFromGallery(View view) {
         ((Activity) context).startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);

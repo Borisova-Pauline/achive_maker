@@ -6,9 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -22,6 +26,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class samples_activity extends AppCompatActivity {
@@ -30,6 +36,7 @@ public class samples_activity extends AppCompatActivity {
     private boolean isSecondClicked = false;
     ArrayList<PictureButton> pics = new ArrayList<>();
     ArrayList<BackgroundButton> backs = new ArrayList<>();
+    Context context = this;
 
     public void toMainMenu(View view){
         Intent intent = new Intent(this, MainActivity.class);
@@ -75,6 +82,13 @@ public class samples_activity extends AppCompatActivity {
         backs.add(new BackgroundButton());
         backs.add(new BackgroundButton(R.drawable.backg_plus));
         tv2.setAdapter(myAdBack);
+        int i = setOnClickPic();
+        tv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(context, i, Toast.LENGTH_LONG).show();
+            }
+        });
     }
     public void onClick1side(View view){
         if(isFirstClicked){
@@ -115,6 +129,42 @@ public class samples_activity extends AppCompatActivity {
     }
 
 
+
+
+    public int setOnClickPic(){
+        int res = 0;
+        for(int i=0;i<pics.size();i++){
+            if(pics.get(i).picID==R.drawable.picture_plus){
+                res=i;
+            }
+        }
+        return res;
+    }
+    public static final int GET_FROM_GALLERY = 3;
+    public void loadImageFromGallery(View view) {
+        ((Activity) context).startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), selectedImage);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 
