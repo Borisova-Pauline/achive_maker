@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FEF4F2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -19,8 +20,8 @@
 
     <ImageView
         android:id="@+id/to_sample_but"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:onClick="toSampleMenu"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,17 +41,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_b" />
-
-    <Button
-        android:id="@+id/plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:backgroundTint="#ff0000"
-        android:text="+"
-        app:layout_constraintEnd_toEndOf="@+id/upper_main"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/upper_main" />
 
     <ScrollView
         android:layout_width="373dp"

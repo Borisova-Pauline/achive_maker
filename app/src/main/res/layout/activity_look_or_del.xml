@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FEF4F2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LookOrDel">
@@ -18,8 +19,8 @@
 
     <ImageView
         android:id="@+id/arrow_look_del"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="78dp"
+        android:layout_height="45dp"
         android:layout_marginTop="14dp"
         android:onClick="toSampleMenu"
         app:layout_constraintEnd_toEndOf="parent"

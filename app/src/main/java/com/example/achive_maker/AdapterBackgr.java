@@ -3,6 +3,7 @@ package com.example.achive_maker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 
 public class AdapterBackgr extends BaseAdapter {
     private LayoutInflater LInflater;
-    private ArrayList<BackgroundButton> list;
+    private ArrayList<ImageView> list;
     private Context context;
-    public AdapterBackgr(Context context, ArrayList<BackgroundButton> data){
+    public AdapterBackgr(Context context, ArrayList<ImageView> data){
         this.context = context;
         list = data;
         LInflater = (LayoutInflater) context
@@ -27,7 +28,7 @@ public class AdapterBackgr extends BaseAdapter {
         return list.size();
     }
     @Override
-    public BackgroundButton getItem(int position) {
+    public ImageView getItem(int position) {
         return list.get(position);
     }
     @Override
@@ -47,36 +48,32 @@ public class AdapterBackgr extends BaseAdapter {
         }
 
         holder = (AdapterBackgr.ViewHolder) v.getTag();
-        BackgroundButton backs = getData(position);
+        ImageView backs = getData(position);
 
-        holder.image_back.setImageResource(backs.backID);
+        holder.image_back.setImageURI((Uri) list.get(position).getTag());
 
-        if(backs.backID == R.drawable.backg_plus){
-            holder.image_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {                 ///////////////////////////////////////////   OVER HERE!!
-                    Toast.makeText(context, "adding a picture", Toast.LENGTH_LONG).show();
-
+        holder.image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, LookOrDel.class);
+                try{
+                    intent.putExtra("picture", backs.getTag().toString());
+                }catch (Exception ex){
+                    ex.getMessage();
                 }
-            });
-        }else{
-            holder.image_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, LookOrDel.class);
-                    intent.putExtra("picture", backs.backID);
-                    context.startActivity(intent);
-                    if(context instanceof Activity){
-                        ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
+
+                //intent.putExtra("picture",backs.getTag().toString());
+                context.startActivity(intent);
+                if(context instanceof Activity){
+                    ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
-            });
-        }
+            }
+        });
 
         return v;
     }
 
-    BackgroundButton getData(int position){
+    ImageView getData(int position){
         return (getItem(position));
     }
     private static class ViewHolder {

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FEF4F2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".samples_activity">
@@ -18,8 +19,8 @@
 
     <ImageView
         android:id="@+id/back_samp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="78dp"
+        android:layout_height="45dp"
         android:layout_marginTop="13dp"
         android:onClick="toMainMenu"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,12 +33,13 @@
         android:id="@+id/samples_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/vcr_osd_mono_cyr"
         android:text="Шаблоны"
         android:textColor="#ffffff"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +56,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/pictures"
@@ -95,26 +97,49 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="19dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="227dp"
-                    android:gravity="center"
+                    android:layout_marginStart="67dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="179dp"
+                    android:gravity="center_vertical"
                     android:text="Картинки"
+                    android:fontFamily="@font/vcr_osd_mono_cyr"
+                    android:textColor="#ffffff"
                     android:textSize="25sp" />
+
+                <ImageView
+                    android:id="@+id/add_pic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginEnd="307dp"
+                    app:srcCompat="@drawable/add_pic_backg" />
 
             </RelativeLayout>
 
-            <GridView
-                android:id="@+id/picture_grid"
+            <LinearLayout
+                android:id="@+id/pic_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="3"
-                android:visibility="gone" />
+                android:orientation="vertical">
+
+                <GridView
+                    android:id="@+id/picture_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:numColumns="3"
+                    android:visibility="gone" />
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/frames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/frames_image"
                     android:layout_width="match_parent"
@@ -149,20 +174,41 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginEnd="242dp"
-                    android:gravity="center"
+                    android:layout_marginStart="68dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="178dp"
+                    android:gravity="center_vertical"
                     android:text="Фоны"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/vcr_osd_mono_cyr"
                     android:textSize="25sp" />
+
+                <ImageView
+                    android:id="@+id/add_back"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginEnd="307dp"
+                    app:srcCompat="@drawable/add_pic_backg" />
 
             </RelativeLayout>
 
-            <ListView
-                android:id="@+id/backg_list"
+            <LinearLayout
+                android:id="@+id/back_lay"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/backg_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="532dp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

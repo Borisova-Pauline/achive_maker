@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 public class AdapterPic extends BaseAdapter {
     private LayoutInflater LInflater;
-    private ArrayList<PictureButton> list;
+    private ArrayList<ImageView> list;
     private Context context;
-    public AdapterPic(Context context, ArrayList<PictureButton> data){
+    public AdapterPic(Context context, ArrayList<ImageView> data){
         this.context = context;
         list = data;
         LInflater = (LayoutInflater) context
@@ -33,7 +33,7 @@ public class AdapterPic extends BaseAdapter {
         return list.size();
     }
     @Override
-    public PictureButton getItem(int position) {
+    public ImageView getItem(int position) {
         return list.get(position);
     }
     @Override
@@ -54,36 +54,30 @@ public class AdapterPic extends BaseAdapter {
         }
 
         holder = (AdapterPic.ViewHolder) v.getTag();
-        PictureButton pics = getData(position);
+        ImageView pics = getData(position);
 
-        holder.image_pic.setImageResource(pics.picID);
+        holder.image_pic.setImageURI((Uri) list.get(position).getTag());
 
-        if(pics.picID == R.drawable.picture_plus){
-            holder.image_pic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {                 ///////////////////////////////////////////   OVER HERE!!
-                    Toast.makeText(context, "adding a picture", Toast.LENGTH_LONG).show();
-                    //((Activity) context).startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+        holder.image_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, LookOrDel.class);
+                try{
+                    intent.putExtra("picture", pics.getTag().toString());
+                }catch (Exception ex){
+                    ex.getMessage();
                 }
-            });
-        }else{
-            holder.image_pic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, LookOrDel.class);
-                    intent.putExtra("picture", pics.picID);
-                    context.startActivity(intent);
-                    if(context instanceof Activity){
-                        ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
-
+                context.startActivity(intent);
+                if(context instanceof Activity){
+                    ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
-            });
-        }
+
+            }
+        });
 
         return v;
     }
-    PictureButton getData(int position){
+    ImageView getData(int position){
         return (getItem(position));
     }
     private static class ViewHolder {
@@ -92,7 +86,6 @@ public class AdapterPic extends BaseAdapter {
 
 
 
-    //public static final int GET_FROM_GALLERY = 3;
     /*public static final int GET_FROM_GALLERY = 3;
     public void loadImageFromGallery(View view) {
         ((Activity) context).startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
