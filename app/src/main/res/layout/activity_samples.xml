@@ -8,50 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".samples_activity">
 
-    <ImageView
-        android:id="@+id/upper_samp"
-        android:layout_width="414dp"
-        android:layout_height="68dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/upper" />
-
-    <ImageView
-        android:id="@+id/back_samp"
-        android:layout_width="78dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="13dp"
-        android:onClick="toMainMenu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_back" />
-
-    <TextView
-        android:id="@+id/samples_headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/vcr_osd_mono_cyr"
-        android:text="Шаблоны"
-        android:textColor="#ffffff"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.558"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:layout_width="372dp"
-        android:layout_height="697dp"
+        android:layout_height="722dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.772">
+        app:layout_constraintVertical_bias="0.92">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,9 +65,9 @@
                     android:layout_marginStart="67dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="179dp"
+                    android:fontFamily="@font/vcr_osd_mono_cyr"
                     android:gravity="center_vertical"
                     android:text="Картинки"
-                    android:fontFamily="@font/vcr_osd_mono_cyr"
                     android:textColor="#ffffff"
                     android:textSize="25sp" />
 
@@ -129,7 +94,7 @@
                 <GridView
                     android:id="@+id/picture_grid"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
+                    android:layout_height="540dp"
                     android:numColumns="3"
                     android:visibility="gone" />
             </LinearLayout>
@@ -177,10 +142,10 @@
                     android:layout_marginStart="68dp"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="178dp"
+                    android:fontFamily="@font/vcr_osd_mono_cyr"
                     android:gravity="center_vertical"
                     android:text="Фоны"
                     android:textColor="#ffffff"
-                    android:fontFamily="@font/vcr_osd_mono_cyr"
                     android:textSize="25sp" />
 
                 <ImageView
@@ -206,11 +171,46 @@
                 <ListView
                     android:id="@+id/backg_list"
                     android:layout_width="match_parent"
-                    android:layout_height="532dp"
+                    android:layout_height="560dp"
                     android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/upper_samp"
+        android:layout_width="414dp"
+        android:layout_height="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/upper" />
+
+    <ImageView
+        android:id="@+id/back_samp"
+        android:layout_width="78dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="13dp"
+        android:onClick="toMainMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_back" />
+
+    <TextView
+        android:id="@+id/samples_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/vcr_osd_mono_cyr"
+        android:text="Шаблоны"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

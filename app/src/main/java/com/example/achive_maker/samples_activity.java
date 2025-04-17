@@ -131,8 +131,11 @@ public class samples_activity extends AppCompatActivity {
             isFirstClicked=true;
         }
         ImageView arrow1 = findViewById(R.id.arrow_pic);
-        GridView tv = findViewById(R.id.picture_grid);
+        View tv = findViewById(R.id.picture_grid);
         changeButton(arrow1, isFirstClicked, tv);
+
+
+        changeHeightPics(findViewById(R.id.picture_grid), pics, 340);
     }
     public void onClick2side(View view){
         if(isSecondClicked){
@@ -141,8 +144,10 @@ public class samples_activity extends AppCompatActivity {
             isSecondClicked=true;
         }
         ImageView arrow2 = findViewById(R.id.arrow_fr);
-        ListView tv = findViewById(R.id.backg_list);
+        View tv = findViewById(R.id.backg_list);
         changeButton(arrow2, isSecondClicked, tv);
+
+        changeHeightBack(findViewById(R.id.backg_list), backs, 340);
     }
     public void changeButton(ImageView iv, boolean isClick, View tv){
         if(isClick){
@@ -197,12 +202,31 @@ public class samples_activity extends AppCompatActivity {
             if(plusWhat==1){
                 GridView gv1 = findViewById(R.id.picture_grid);
                 gv1.invalidateViews();
+                changeHeightPics(findViewById(R.id.picture_grid), pics, 340);
             }else if(plusWhat==2){
                 ListView lv1 = findViewById(R.id.backg_list);
                 lv1.invalidateViews();
+                changeHeightBack(findViewById(R.id.backg_list), backs, 340);
             }
 
         }
+    }
+    public void changeHeightPics(GridView ll, ArrayList<ImageView> ivList, int prefOneH){
+        int height=120;
+        if((ivList.size())%3>0){
+            height=((ivList.size()/3)+1)*prefOneH;
+        }else{
+            height=ivList.size()/3*prefOneH;
+        }
+        ViewGroup.LayoutParams params = ll.getLayoutParams();
+        params.height = height;
+        ll.setLayoutParams(params);
+    }
+    public void changeHeightBack(ListView ll, ArrayList<ImageView> ivList, int prefOneH){
+        int height=ivList.size()*prefOneH;
+        ViewGroup.LayoutParams params = ll.getLayoutParams();
+        params.height = height;
+        ll.setLayoutParams(params);
     }
 
 

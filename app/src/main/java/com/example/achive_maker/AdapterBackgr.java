@@ -61,8 +61,6 @@ public class AdapterBackgr extends BaseAdapter {
                 }catch (Exception ex){
                     ex.getMessage();
                 }
-
-                //intent.putExtra("picture",backs.getTag().toString());
                 context.startActivity(intent);
                 if(context instanceof Activity){
                     ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

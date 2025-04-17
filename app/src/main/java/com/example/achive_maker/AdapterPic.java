@@ -71,7 +71,6 @@ public class AdapterPic extends BaseAdapter {
                 if(context instanceof Activity){
                     ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
-
             }
         });
 
