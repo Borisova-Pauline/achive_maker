@@ -96,7 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="540dp"
                     android:numColumns="3"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:verticalSpacing="7dp"/>
             </LinearLayout>
 
 
@@ -172,7 +173,9 @@
                     android:id="@+id/backg_list"
                     android:layout_width="match_parent"
                     android:layout_height="560dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="10sp"/>
             </LinearLayout>
 
         </LinearLayout>

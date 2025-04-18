@@ -4,6 +4,7 @@ import static com.example.achive_maker.MainActivity.SHAR_PREFS_NAME;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,8 +28,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,7 +41,9 @@ public class samples_activity extends AppCompatActivity {
     private boolean isFirstClicked = false;
     private boolean isSecondClicked = false;
     ArrayList<ImageView> pics = new ArrayList<>();
+    ArrayList<String> picsURI = new ArrayList<>();
     ArrayList<ImageView> backs = new ArrayList<>();
+    ArrayList<String> backsURI = new ArrayList<>();
     Context context = this;
     static int plusWhat = 0;
 
@@ -60,6 +67,7 @@ public class samples_activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         sharPrefs = getSharedPreferences(SHAR_PREFS_NAME, MODE_PRIVATE);
         isFirstClicked=sharPrefs.getBoolean("firstInSample", false);
         isSecondClicked=sharPrefs.getBoolean("secondInSample", false);
@@ -74,11 +82,9 @@ public class samples_activity extends AppCompatActivity {
 
 
         AdapterPic myAdPic = new AdapterPic(this, pics);
-        pics.add(new ImageView(this));
         tv1.setAdapter(myAdPic);
 
         AdapterBackgr myAdBack = new AdapterBackgr(this, backs);
-        backs.add(new ImageView(this));
         tv2.setAdapter(myAdBack);
 
         ImageView plusPic = findViewById(R.id.add_pic);
@@ -96,6 +102,8 @@ public class samples_activity extends AppCompatActivity {
                 // allowing multiple image to be selected
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra("where", "picture");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
             }
@@ -123,7 +131,6 @@ public class samples_activity extends AppCompatActivity {
     }
     int PICK_IMAGE_MULTIPLE = 1;
 
-
     public void onClick1side(View view){
         if(isFirstClicked){
             isFirstClicked=false;
@@ -147,7 +154,7 @@ public class samples_activity extends AppCompatActivity {
         View tv = findViewById(R.id.backg_list);
         changeButton(arrow2, isSecondClicked, tv);
 
-        changeHeightBack(findViewById(R.id.backg_list), backs, 340);
+        changeHeightBack(findViewById(R.id.backg_list), backs, 300);
     }
     public void changeButton(ImageView iv, boolean isClick, View tv){
         if(isClick){
@@ -161,14 +168,38 @@ public class samples_activity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
+        savePic();
+        saveBack();
         SharedPreferences.Editor editor = sharPrefs.edit();
         editor.putBoolean("firstInSample", isFirstClicked);
         editor.putBoolean("secondInSample", isSecondClicked);
         editor.apply();
     }
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Uri firstPicURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.unknow_pic);
+        Uri firstBackURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);
+        loadPic();
+        loadBack();
+        if(pics.isEmpty()){
+            ImageView ivPic = new ImageView(this);
+            ivPic.setImageURI(firstPicURI);
+            ivPic.setTag(firstPicURI);
+            pics.add(ivPic);
+            picsURI.add(firstPicURI.toString());
+        }
+        if(backs.isEmpty()){
+            ImageView ivBack = new ImageView(this);
+            ivBack.setImageURI(firstBackURI);
+            ivBack.setTag(firstBackURI);
+            backs.add(ivBack);
+            backsURI.add(firstBackURI.toString());
+        }
+        changeHeightPics(findViewById(R.id.picture_grid), pics, 340);
+        changeHeightBack(findViewById(R.id.backg_list), backs, 300);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,8 +215,17 @@ public class samples_activity extends AppCompatActivity {
                     imvi.setTag(imageurl);
                     if(plusWhat==1){
                         pics.add(imvi);
+                        picsURI.add(imageurl.toString());
                     }else if(plusWhat==2){
                         backs.add(imvi);
+                        backsURI.add(imageurl.toString());
+                    }
+                    try{
+                        MyViewModel viewModel = new ViewModelProvider(this).get(MyViewModel.class);
+                        ContentResolver resolver = getContentResolver();
+                        viewModel.handleUriPermission(imageurl, resolver);
+                    }catch(Exception ex){
+                        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
@@ -195,8 +235,17 @@ public class samples_activity extends AppCompatActivity {
                 imvi.setTag(imageurl);
                 if(plusWhat==1){
                     pics.add(imvi);
+                    //picsURI.add(imageurl.toString());
                 }else if(plusWhat==2){
                     backs.add(imvi);
+                    //backsURI.add(imageurl.toString());
+                }
+                try{
+                    MyViewModel viewModel = new ViewModelProvider(this).get(MyViewModel.class);
+                    ContentResolver resolver = getContentResolver();
+                    viewModel.handleUriPermission(imageurl, resolver);
+                }catch(Exception ex){
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
             if(plusWhat==1){
@@ -206,9 +255,8 @@ public class samples_activity extends AppCompatActivity {
             }else if(plusWhat==2){
                 ListView lv1 = findViewById(R.id.backg_list);
                 lv1.invalidateViews();
-                changeHeightBack(findViewById(R.id.backg_list), backs, 340);
+                changeHeightBack(findViewById(R.id.backg_list), backs, 300);
             }
-
         }
     }
     public void changeHeightPics(GridView ll, ArrayList<ImageView> ivList, int prefOneH){
@@ -229,6 +277,111 @@ public class samples_activity extends AppCompatActivity {
         ll.setLayoutParams(params);
     }
 
+    private final static String FILE_NAME_PIC = "content_pic.txt";
+    private final static String FILE_NAME_BACK = "content_back.txt";
+    public void savePic() {
+        FileOutputStream fos = null;
+        String textSave = "";
+        for (int i = 0; i < picsURI.size(); i++) {
+            if (i < picsURI.size() - 1) {
+                textSave = textSave + picsURI.get(i) + "\n104\n";
+            } else {
+                textSave = textSave + picsURI.get(i);
+            }
+        }
+        try {
+            fos = openFileOutput(FILE_NAME_PIC, MODE_PRIVATE);
+            fos.write(textSave.getBytes());
+        } catch (IOException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public void saveBack() {
+        FileOutputStream fos = null;
+        String textSave = "";
+        for (int i = 0; i < backsURI.size(); i++) {
+            if (i < backsURI.size() - 1) {
+                textSave = textSave + backsURI.get(i) + "\n104\n";
+            } else {
+                textSave = textSave + backsURI.get(i);
+            }
+        }
+        try {
+            fos = openFileOutput(FILE_NAME_BACK, MODE_PRIVATE);
+            fos.write(textSave.getBytes());
+        } catch (IOException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
+    public void loadPic(){
+        FileInputStream fin = null;
+        try {
+            fin = openFileInput(FILE_NAME_PIC);
+            byte[] bytes = new byte[fin.available()];
+            fin.read(bytes);
+            String text = new String (bytes);
+            String[]temp=text.split("\n104\n");
+            for(int i=0;i<temp.length;i++){
+                picsURI.add(temp[i]);
+                ImageView iv = new ImageView(this);
+                iv.setImageURI(Uri.parse(picsURI.get(i)));
+                iv.setTag(Uri.parse(picsURI.get(i)));
+                pics.add(iv);
+            }
+        }
+        catch(Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        finally {
+            try {
+                if (fin != null)
+                    fin.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public void loadBack(){
+        FileInputStream fin = null;
+        try {
+            fin = openFileInput(FILE_NAME_BACK);
+            byte[] bytes = new byte[fin.available()];
+            fin.read(bytes);
+            String text = new String (bytes);
+            String[]temp=text.split("\n104\n");
+            for(int i=0;i<temp.length;i++){
+                backsURI.add(temp[i]);
+                ImageView iv = new ImageView(this);
+                iv.setImageURI(Uri.parse(backsURI.get(i)));
+                iv.setTag(Uri.parse(backsURI.get(i)));
+                backs.add(iv);
+            }
+        }
+        catch(Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        finally {
+            try {
+                if (fin != null)
+                    fin.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
-
