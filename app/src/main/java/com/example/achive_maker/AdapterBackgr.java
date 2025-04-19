@@ -58,6 +58,7 @@ public class AdapterBackgr extends BaseAdapter {
                 Intent intent = new Intent(context, LookOrDel.class);
                 try{
                     intent.putExtra("picture", backs.getTag().toString());
+                    intent.putExtra("pic_or_back", "back");
                 }catch (Exception ex){
                     ex.getMessage();
                 }

@@ -81,6 +81,28 @@ public class samples_activity extends AppCompatActivity {
         changeButton((ImageView) arrow2, isSecondClicked, tv2);
 
 
+        Uri firstPicURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.unknow_pic);
+        Uri firstBackURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);
+        loadPic();
+        loadBack();
+        if(pics.isEmpty()){
+            ImageView ivPic = new ImageView(this);
+            ivPic.setImageURI(firstPicURI);
+            ivPic.setTag(firstPicURI);
+            pics.add(ivPic);
+            picsURI.add(firstPicURI.toString());
+        }
+        if(backs.isEmpty()){
+            ImageView ivBack = new ImageView(this);
+            ivBack.setImageURI(firstBackURI);
+            ivBack.setTag(firstBackURI);
+            backs.add(ivBack);
+            backsURI.add(firstBackURI.toString());
+        }
+
+
+
+
         AdapterPic myAdPic = new AdapterPic(this, pics);
         tv1.setAdapter(myAdPic);
 
@@ -179,24 +201,6 @@ public class samples_activity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Uri firstPicURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.unknow_pic);
-        Uri firstBackURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);
-        loadPic();
-        loadBack();
-        if(pics.isEmpty()){
-            ImageView ivPic = new ImageView(this);
-            ivPic.setImageURI(firstPicURI);
-            ivPic.setTag(firstPicURI);
-            pics.add(ivPic);
-            picsURI.add(firstPicURI.toString());
-        }
-        if(backs.isEmpty()){
-            ImageView ivBack = new ImageView(this);
-            ivBack.setImageURI(firstBackURI);
-            ivBack.setTag(firstBackURI);
-            backs.add(ivBack);
-            backsURI.add(firstBackURI.toString());
-        }
         changeHeightPics(findViewById(R.id.picture_grid), pics, 340);
         changeHeightBack(findViewById(R.id.backg_list), backs, 300);
     }

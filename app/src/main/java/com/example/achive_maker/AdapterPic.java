@@ -64,6 +64,7 @@ public class AdapterPic extends BaseAdapter {
                 Intent intent = new Intent(context, LookOrDel.class);
                 try{
                     intent.putExtra("picture", pics.getTag().toString());
+                    intent.putExtra("pic_or_back", "pic");
                 }catch (Exception ex){
                     ex.getMessage();
                 }
