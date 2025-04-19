@@ -47,7 +47,6 @@ public class LookOrDel extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         Intent intent = getIntent();
-        if(!isRemove){
         switch(intent.getStringExtra("pic_or_back")){
             case "pic":
                 loadPic();
@@ -57,7 +56,7 @@ public class LookOrDel extends AppCompatActivity {
                 break;
             default:
                 Toast.makeText(this, "Какая-то ошибка", Toast.LENGTH_LONG).show();
-        }}
+        }
     }
 
     public void toSampleMenu(View view){
@@ -98,7 +97,6 @@ public class LookOrDel extends AppCompatActivity {
     private final static String FILE_NAME_BACK = "content_back.txt";
     ArrayList<String> backsURI = new ArrayList<>();
     ArrayList<String> picsURI = new ArrayList<>();
-    boolean isRemove = false;
     public void savePic() {
         FileOutputStream fos = null;
         String textSave = "";
