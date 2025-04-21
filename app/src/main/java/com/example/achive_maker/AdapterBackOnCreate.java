@@ -60,6 +60,7 @@ public class AdapterBackOnCreate extends BaseAdapter {
             public void onClick(View view) {
                 try{
                     picture.setImageURI((Uri) list.get(position).getTag());
+                    picture.setTag(list.get(position).getTag());
                 }catch (Exception ex){
                     ex.getMessage();
                 }

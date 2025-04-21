@@ -1,14 +1,18 @@
 package com.example.achive_maker;
 
+import static com.example.achive_maker.MainActivity.SHAR_PREFS_NAME;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,6 +64,7 @@ public class AdapterPicOnCreate extends BaseAdapter {
             public void onClick(View view) {
                 try{
                     picture.setImageURI((Uri) list.get(position).getTag());
+                    picture.setTag((list.get(position).getTag()));
                 }catch (Exception ex){
                     ex.getMessage();
                 }
@@ -68,6 +73,7 @@ public class AdapterPicOnCreate extends BaseAdapter {
 
         return v;
     }
+    SharedPreferences sp;
     ImageView getData(int position){
         return (getItem(position));
     }

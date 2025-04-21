@@ -22,6 +22,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         });
         sharPrefs = getSharedPreferences(SHAR_PREFS_NAME, MODE_PRIVATE);
 
+        loadAchive();
 
         MyAdapter myAd = new MyAdapter(this, achives);
         ListView lv = findViewById(R.id.achs);
@@ -68,14 +70,39 @@ public class MainActivity extends AppCompatActivity {
 
         /////////НЕ ТРОГАТЬ, ЭТО ПОКАЗ ОБЪЕКТОВ НА ЭКРАНЕ, ВЗЯТЫЙ ИЗ ИНТЕРНЕТА; НЕ ТРОГАТЬ И КЛАСС MyAdapter Я ХЗ КАК ТАМ ВСЁ РАБОТАЕТ!!!!!!!!
     ArrayList<Achivement> achives = new ArrayList<>();
-    public void createAch(View view){
+    /*public void createAch(View view){
         MyAdapter myAd = new MyAdapter(this, achives);
         ListView lv = findViewById(R.id.achs);
         achives.add(new Achivement());
         lv.setAdapter(myAd);
+    }*/
+
+    private final static String FILE_NAME_ACH = "content_achievement.txt";
+    public void loadAchive(){
+        FileInputStream fin = null;
+        try {
+            fin = openFileInput(FILE_NAME_ACH);
+            byte[] bytes = new byte[fin.available()];
+            fin.read(bytes);
+            String text = new String (bytes);
+            String[]temp=text.split("\n104401104\n");
+            for(int i=0;i<temp.length;i++){
+                String[] tempObj = temp[i].split("\n104\n");
+                Achivement a = new Achivement(i, tempObj[0], tempObj[1], tempObj[2], tempObj[3]);
+                achives.add(a);
+            }
+        }
+        catch(Exception ex) {
+            Toast.makeText(this, ex.getMessage()+"\nload", Toast.LENGTH_SHORT).show();
+        }
+        finally {
+            try {
+                if (fin != null)
+                    fin.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
-
-
-
 
 }
