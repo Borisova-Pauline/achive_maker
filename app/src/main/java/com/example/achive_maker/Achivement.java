@@ -9,13 +9,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Achivement {
-    //ImageView picture;
     String picURI;
-    //ImageView background;
     String backURI;
-    //Uri firstPicURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.unknow_pic);
-    //Uri firstBackURI = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);
-    //TextView text;
     String textT = "Текст ачивки";
     String description;
     int pos;

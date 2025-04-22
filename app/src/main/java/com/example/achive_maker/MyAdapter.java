@@ -1,5 +1,7 @@
 package com.example.achive_maker;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,10 +62,32 @@ public class MyAdapter extends BaseAdapter {
         holder.image_ach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context, EditAchive.class);
                 try{
+                    intent.putExtra("position", achs.pos);
                     Toast.makeText(context, String.valueOf(achs.pos), Toast.LENGTH_LONG).show();
                 }catch (Exception ex){
                     ex.getMessage();
+                }
+                context.startActivity(intent);
+                if(context instanceof Activity) {
+                    ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+        });
+        holder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, EditAchive.class);
+                try{
+                    intent.putExtra("position", achs.pos);
+                    Toast.makeText(context, String.valueOf(achs.pos), Toast.LENGTH_LONG).show();
+                }catch (Exception ex){
+                    ex.getMessage();
+                }
+                context.startActivity(intent);
+                if(context instanceof Activity) {
+                    ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
         });

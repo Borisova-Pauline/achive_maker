@@ -1,12 +1,8 @@
 package com.example.achive_maker;
 
-import static com.example.achive_maker.MainActivity.SHAR_PREFS_NAME;
-
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,24 +10,20 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CreateAchive extends AppCompatActivity {
+public class EditAchive extends AppCompatActivity {
     private final static String FILE_NAME_PIC = "content_pic.txt";
     private final static String FILE_NAME_BACK = "content_back.txt";
     private final static String FILE_NAME_ACH = "content_achievement.txt";
@@ -40,11 +32,12 @@ public class CreateAchive extends AppCompatActivity {
     ArrayList<ImageView> backs = new ArrayList<>();
     ArrayList<String> backsURI = new ArrayList<>();
     ArrayList<Achivement> achivements = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_create_achive);
+        setContentView(R.layout.activity_edit_achive);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -71,18 +64,33 @@ public class CreateAchive extends AppCompatActivity {
         }
 
 
-        GridView tv1 = findViewById(R.id.pic_samp_gv);
-        AdapterPicOnCreate myAdPic = new AdapterPicOnCreate(this, pics, findViewById(R.id.picture_cr));
+
+        Intent intent = getIntent();
+        pos = intent.getIntExtra("position", 0);
+        iv1 = findViewById(R.id.picture_ed);
+        iv1.setImageURI(Uri.parse(achivements.get(pos).picURI));
+        iv1.setTag(Uri.parse(achivements.get(pos).picURI));
+        iv2= findViewById(R.id.background_ed);
+        iv2.setImageURI(Uri.parse(achivements.get(pos).backURI));
+        iv2.setTag(Uri.parse(achivements.get(pos).backURI));
+        et1 = findViewById(R.id.naming_ed);
+        et1.setText(achivements.get(pos).textT);
+        et2 = findViewById(R.id.descrip_et_edit);
+        et2.setText(achivements.get(pos).description);
+
+
+        GridView tv1 = findViewById(R.id.pic_samp_gv_edit);
+        AdapterPicOnCreate myAdPic = new AdapterPicOnCreate(this, pics, iv1);
         tv1.setAdapter(myAdPic);
 
-        ListView tv2 = findViewById(R.id.back_samp_lv);
-        AdapterBackOnCreate myAdBack = new AdapterBackOnCreate(this, backs, findViewById(R.id.background_cr));
+        ListView tv2 = findViewById(R.id.back_samp_lv_edit);
+        AdapterBackOnCreate myAdBack = new AdapterBackOnCreate(this, backs, iv2);
         tv2.setAdapter(myAdBack);
 
-        ImageView iv1 = findViewById(R.id.picture_cr);
+        /*ImageView iv1 = findViewById(R.id.picture_ed);
         iv1.setTag("android.resource://" + this.getPackageName() + "/" + R.drawable.unknow_pic);
-        ImageView iv2= findViewById(R.id.background_cr);
-        iv2.setTag("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);
+        ImageView iv2= findViewById(R.id.background_ed);
+        iv2.setTag("android.resource://" + this.getPackageName() + "/" + R.drawable.backg_sample);*/
     }
     public void toMainMenu(View view){
         MyDialogFragment dialog = new MyDialogFragment(this, "create_edit");
@@ -90,46 +98,52 @@ public class CreateAchive extends AppCompatActivity {
     }
 
     public void description(View view){
-        EditText et = findViewById(R.id.descrip_et);
+        EditText et = findViewById(R.id.descrip_et_edit);
         et.setVisibility(View.VISIBLE);
-        GridView gv = findViewById(R.id.pic_samp_gv);
+        GridView gv = findViewById(R.id.pic_samp_gv_edit);
         gv.setVisibility(View.GONE);
-        ListView lv = findViewById(R.id.back_samp_lv);
+        ListView lv = findViewById(R.id.back_samp_lv_edit);
         lv.setVisibility(View.GONE);
     }
     public void picSamp(View view){
-        EditText et = findViewById(R.id.descrip_et);
+        EditText et = findViewById(R.id.descrip_et_edit);
         et.setVisibility(View.GONE);
-        GridView gv = findViewById(R.id.pic_samp_gv);
+        GridView gv = findViewById(R.id.pic_samp_gv_edit);
         gv.setVisibility(View.VISIBLE);
-        ListView lv = findViewById(R.id.back_samp_lv);
+        ListView lv = findViewById(R.id.back_samp_lv_edit);
         lv.setVisibility(View.GONE);
     }
     public void backSamp(View view){
-        EditText et = findViewById(R.id.descrip_et);
+        EditText et = findViewById(R.id.descrip_et_edit);
         et.setVisibility(View.GONE);
-        GridView gv = findViewById(R.id.pic_samp_gv);
+        GridView gv = findViewById(R.id.pic_samp_gv_edit);
         gv.setVisibility(View.GONE);
-        ListView lv = findViewById(R.id.back_samp_lv);
+        ListView lv = findViewById(R.id.back_samp_lv_edit);
         lv.setVisibility(View.VISIBLE);
     }
-
-
+    int pos = 0;
+    ImageView iv1;
+    String picURI;
+    ImageView iv2;
+    String backURI;
+    EditText et1;
+    String text;
+    EditText et2;
+    String desc;
+    //Achivement ach = new Achivement(achivements.size(), picURI, text, backURI, desc);
     public void doAchive(View view){
-        ImageView iv1 = findViewById(R.id.picture_cr);
-        String picURI = iv1.getTag().toString();
-        ImageView iv2= findViewById(R.id.background_cr);
-        String backURI = iv2.getTag().toString();
-        EditText et1 = findViewById(R.id.naming_cr);
-        String text = et1.getText().toString();
-        EditText et2 = findViewById(R.id.descrip_et);
-        String desc = et2.getText().toString();
-        Achivement ach = new Achivement(achivements.size(), picURI, text, backURI, desc);
-        achivements.add(ach);
+        picURI = iv1.getTag().toString();
+        backURI = iv2.getTag().toString();
+        text = et1.getText().toString();
+        desc = et2.getText().toString();
+        achivements.get(pos).picURI = picURI;
+        achivements.get(pos).textT = text;
+        achivements.get(pos).backURI = backURI;
+        achivements.get(pos).description = desc;
         saveAchive();
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        Intent intent1 = new Intent(this, MainActivity.class);
+        startActivity(intent1);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
@@ -190,6 +204,23 @@ public class CreateAchive extends AppCompatActivity {
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    Context context = this;
+    public void deleteAch(View view){
+        DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                achivements.remove(pos);
+                saveAchive();
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        };
+
+
+        MyDialogFragment dialog = new MyDialogFragment(this, "delete", ocl);
+        dialog.show(getSupportFragmentManager(), "custom");
     }
 
     public void saveAchive(){
